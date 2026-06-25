@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 import os
-import local_repo
+from versso.initialize import local_repo
 
 BOLD = "\033[1m"
 GREEN = "\033[32m"
