@@ -1,3 +1,3 @@
-from versso.initialize.project_init import initialize_project
+from versso.initialize.project import initialize
 
 

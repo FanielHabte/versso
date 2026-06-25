@@ -1,3 +1,3 @@
 import versso
 
-versso.initialize_project()
+versso.initialize()
