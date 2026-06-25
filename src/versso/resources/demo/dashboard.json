@@ -1,0 +1,231 @@
+{
+  "DashboardId": "sales-performance-dashboard",
+  "Name": "Sales Performance",
+  "ResourceStatus": "CREATION_SUCCESSFUL",
+  "ThemeArn": "arn:aws:quicksight::aws:theme/MIDNIGHT",
+  "Definition": {
+    "DataSetIdentifierDeclarations": [
+      {
+        "Identifier": "Sales Orders",
+        "DataSetArn": "arn:aws:quicksight:us-east-1:123456789012:dataset/sales-orders-spice"
+      },
+      {
+        "Identifier": "Customer Demographics",
+        "DataSetArn": "arn:aws:quicksight:us-east-1:123456789012:dataset/customer-demographics"
+      }
+    ],
+    "CalculatedFields": [
+      {
+        "DataSetIdentifier": "Sales Orders",
+        "Name": "Gross Margin",
+        "Expression": "(sum({sales_amount}) - sum({cost_amount})) / sum({sales_amount})"
+      }
+    ],
+    "Sheets": [
+      {
+        "SheetId": "sheet-overview",
+        "Name": "Overview",
+        "Title": "Sales Performance Overview",
+        "ContentType": "INTERACTIVE",
+        "Visuals": [
+          {
+            "KPIVisual": {
+              "VisualId": "kpi-total-sales",
+              "Title": {
+                "Visibility": "VISIBLE",
+                "FormatText": {
+                  "PlainText": "Total Sales"
+                }
+              },
+              "ChartConfiguration": {
+                "FieldWells": {
+                  "Values": [
+                    {
+                      "NumericalMeasureField": {
+                        "FieldId": "kpi.total_sales",
+                        "Column": {
+                          "DataSetIdentifier": "Sales Orders",
+                          "ColumnName": "sales_amount"
+                        },
+                        "AggregationFunction": {
+                          "SimpleNumericalAggregation": "SUM"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "BarChartVisual": {
+              "VisualId": "bar-sales-by-region",
+              "Title": {
+                "Visibility": "VISIBLE",
+                "FormatText": {
+                  "PlainText": "Sales by Region"
+                }
+              },
+              "ChartConfiguration": {
+                "FieldWells": {
+                  "BarChartAggregatedFieldWells": {
+                    "Category": [
+                      {
+                        "CategoricalDimensionField": {
+                          "FieldId": "bar1.region",
+                          "Column": {
+                            "DataSetIdentifier": "Sales Orders",
+                            "ColumnName": "region"
+                          }
+                        }
+                      }
+                    ],
+                    "Values": [
+                      {
+                        "NumericalMeasureField": {
+                          "FieldId": "bar1.sales",
+                          "Column": {
+                            "DataSetIdentifier": "Sales Orders",
+                            "ColumnName": "sales_amount"
+                          },
+                          "AggregationFunction": {
+                            "SimpleNumericalAggregation": "SUM"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "Orientation": "VERTICAL",
+                "BarsArrangement": "CLUSTERED",
+                "SortConfiguration": {
+                  "CategorySort": [
+                    {
+                      "FieldSort": {
+                        "FieldId": "bar1.sales",
+                        "Direction": "DESC"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "BarChartVisual": {
+              "VisualId": "bar-ltv-by-segment",
+              "Title": {
+                "Visibility": "VISIBLE",
+                "FormatText": {
+                  "PlainText": "Avg Lifetime Value by Segment"
+                }
+              },
+              "ChartConfiguration": {
+                "FieldWells": {
+                  "BarChartAggregatedFieldWells": {
+                    "Category": [
+                      {
+                        "CategoricalDimensionField": {
+                          "FieldId": "bar2.segment",
+                          "Column": {
+                            "DataSetIdentifier": "Customer Demographics",
+                            "ColumnName": "segment"
+                          }
+                        }
+                      }
+                    ],
+                    "Values": [
+                      {
+                        "NumericalMeasureField": {
+                          "FieldId": "bar2.ltv",
+                          "Column": {
+                            "DataSetIdentifier": "Customer Demographics",
+                            "ColumnName": "lifetime_value"
+                          },
+                          "AggregationFunction": {
+                            "SimpleNumericalAggregation": "AVERAGE"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "Orientation": "HORIZONTAL",
+                "BarsArrangement": "CLUSTERED",
+                "SortConfiguration": {
+                  "CategorySort": [
+                    {
+                      "FieldSort": {
+                        "FieldId": "bar2.ltv",
+                        "Direction": "DESC"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "Layouts": [
+          {
+            "Configuration": {
+              "GridLayout": {
+                "Elements": [
+                  {
+                    "ElementId": "kpi-total-sales",
+                    "ElementType": "VISUAL",
+                    "ColumnIndex": 0,
+                    "ColumnSpan": 36,
+                    "RowIndex": 0,
+                    "RowSpan": 4
+                  },
+                  {
+                    "ElementId": "bar-sales-by-region",
+                    "ElementType": "VISUAL",
+                    "ColumnIndex": 0,
+                    "ColumnSpan": 18,
+                    "RowIndex": 4,
+                    "RowSpan": 12
+                  },
+                  {
+                    "ElementId": "bar-ltv-by-segment",
+                    "ElementType": "VISUAL",
+                    "ColumnIndex": 18,
+                    "ColumnSpan": 18,
+                    "RowIndex": 4,
+                    "RowSpan": 12
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "Options": {
+      "WeekStart": "MONDAY"
+    }
+  },
+  "DashboardPublishOptions": {
+    "AdHocFilteringOption": {
+      "AvailabilityStatus": "DISABLED"
+    },
+    "ExportToCSVOption": {
+      "AvailabilityStatus": "ENABLED"
+    },
+    "SheetControlsOption": {
+      "VisibilityState": "EXPANDED"
+    }
+  },
+  "Status": 200,
+  "RequestId": "a1b2c3d4-4444-4aaa-8bbb-1234567890ae",
+  "ResponseMetadata": {
+    "RequestId": "a1b2c3d4-4444-4aaa-8bbb-1234567890ae",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "content-type": "application/json",
+      "x-amzn-requestid": "a1b2c3d4-4444-4aaa-8bbb-1234567890ae"
+    },
+    "RetryAttempts": 0
+  }
+}

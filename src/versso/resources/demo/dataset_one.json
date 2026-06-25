@@ -1,0 +1,109 @@
+{
+  "DataSet": {
+    "Arn": "arn:aws:quicksight:us-east-1:123456789012:dataset/customer-demographics",
+    "DataSetId": "customer-demographics",
+    "Name": "Customer Demographics",
+    "CreatedTime": "2026-02-03T11:20:05+00:00",
+    "LastUpdatedTime": "2026-05-09T09:02:18+00:00",
+    "PhysicalTableMap": {
+      "po-dim-customer": {
+        "RelationalTable": {
+          "DataSourceArn": "arn:aws:quicksight:us-east-1:123456789012:datasource/athena-marketing",
+          "Catalog": "AwsDataCatalog",
+          "Schema": "marketing",
+          "Name": "dim_customer",
+          "InputColumns": [
+            {
+              "Name": "customer_id",
+              "Type": "STRING"
+            },
+            {
+              "Name": "segment",
+              "Type": "STRING"
+            },
+            {
+              "Name": "region",
+              "Type": "STRING"
+            },
+            {
+              "Name": "age_band",
+              "Type": "STRING"
+            },
+            {
+              "Name": "lifetime_value",
+              "Type": "DECIMAL"
+            },
+            {
+              "Name": "signup_date",
+              "Type": "DATETIME"
+            }
+          ]
+        }
+      }
+    },
+    "LogicalTableMap": {
+      "lt-customer": {
+        "Alias": "Customer Demographics",
+        "DataTransforms": [
+          {
+            "ProjectOperation": {
+              "ProjectedColumns": [
+                "customer_id",
+                "segment",
+                "region",
+                "age_band",
+                "lifetime_value",
+                "signup_date"
+              ]
+            }
+          }
+        ],
+        "Source": {
+          "PhysicalTableId": "po-dim-customer"
+        }
+      }
+    },
+    "OutputColumns": [
+      {
+        "Name": "customer_id",
+        "Type": "STRING"
+      },
+      {
+        "Name": "segment",
+        "Type": "STRING"
+      },
+      {
+        "Name": "region",
+        "Type": "STRING"
+      },
+      {
+        "Name": "age_band",
+        "Type": "STRING"
+      },
+      {
+        "Name": "lifetime_value",
+        "Type": "DECIMAL"
+      },
+      {
+        "Name": "signup_date",
+        "Type": "DATETIME"
+      }
+    ],
+    "ImportMode": "DIRECT_QUERY",
+    "DataSetUsageConfiguration": {
+      "DisableUseAsDirectQuerySource": false,
+      "DisableUseAsImportedSource": false
+    }
+  },
+  "RequestId": "a1b2c3d4-2222-4aaa-8bbb-1234567890ac",
+  "Status": 200,
+  "ResponseMetadata": {
+    "RequestId": "a1b2c3d4-2222-4aaa-8bbb-1234567890ac",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "content-type": "application/json",
+      "x-amzn-requestid": "a1b2c3d4-2222-4aaa-8bbb-1234567890ac"
+    },
+    "RetryAttempts": 0
+  }
+}

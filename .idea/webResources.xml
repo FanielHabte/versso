@@ -9,6 +9,13 @@
           </resourceRoots>
         </entryData>
       </entry>
+      <entry url="file://$PROJECT_DIR$">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/src/versso/resources" />
+          </resourceRoots>
+        </entryData>
+      </entry>
     </contentEntries>
   </component>
 </project>
