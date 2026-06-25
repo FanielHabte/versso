@@ -29,9 +29,13 @@ def get_project_path(project_name: str) -> Path:
     return project_path
 
 
-def clone_project_template(project_path: Path) -> bool:
+def build_template(project_path: Path) -> bool:
     if not project_path.exists():
-        Repo.clone_from("https://github.com/FanielHabte/vesso-template.git", project_path)
+        project_path.mkdir()
+        repo = Repo.init(project_path)
+        origin = repo.create_remote("origin","https://github.com/FanielHabte/vesso-template.git")
+        origin.fetch(), repo.git.pull("origin", "main")
+        
         print(f"  {CYAN}●{RESET} Setting up repository structure... Done")
         return True
     else:
@@ -53,7 +57,7 @@ def initialize_project():
     project_name = get_project_name()
     project_path = get_project_path(project_name)
 
-    if clone_project_template(project_path):
+    if build_template(project_path):
         rename_placeholder_names("src", project_path, project_name)
         rename_placeholder_names("test", project_path, project_name)
     print(f"  {CYAN}●{RESET} Configuring project source and tests... Done\n")
