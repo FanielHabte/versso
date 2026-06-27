@@ -15,4 +15,4 @@ dependencies = [
 ]
 
 [project.scripts]
-versso = "versso.command:initialize"
+versso = "versso.commands:cli"
