@@ -3,7 +3,7 @@ from botocore.stub import Stubber
 import json
 from pathlib import Path
 
-qs = session.get_session().create_client("quicksight", "us-east-1")
+qs = session.get_session().create_client("aws", "us-east-1")
 root = Path(__file__).resolve().parent.parent.parent
 dashboard_path = root / "resources/demo/dashboard.json"
 analysis_path = root / "resources/demo/analysis.json"

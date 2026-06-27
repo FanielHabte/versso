@@ -17,8 +17,8 @@ def get_name() -> str:
         str: project_name
     """
     while True:
-        project_name = input("Please provide your project name: ").lower()
-        pattern = r"^[a-z_]+$"
+        project_name: str = input("Please provide your project name: ").lower()
+        pattern: str = r"^[a-z_]+$"
 
         if re.match(pattern, project_name):
             print(f"\n  {CYAN}●{RESET} Validating project name... Done ({project_name})")
@@ -37,8 +37,8 @@ def build_path(project_name: str) -> Path:
     Returns:
         Path: project_path (Path object)
     """
-    root_path = Path(os.getcwd()).resolve()
-    project_path = root_path / project_name
+    root_path: Path = Path(os.getcwd()).resolve()
+    project_path: Path = root_path / project_name
 
     return project_path
 
@@ -72,8 +72,8 @@ def rename_temp_names(parent_dir_name: str, project_path: Path, project_name: st
     Returns:
         bool: status of the process (True/False)
     """
-    old_project_dir = project_path / f"{parent_dir_name}/template"
-    new_project_dir = project_path / f"{parent_dir_name}/{project_name}"
+    old_project_dir: Path = project_path / f"{parent_dir_name}/template"
+    new_project_dir: Path = project_path / f"{parent_dir_name}/{project_name}"
     old_project_dir.replace(new_project_dir)
 
     return True
@@ -98,8 +98,8 @@ def initialize() -> None:
     """
     print("▲ VERSSO | Project Initialization \n")
 
-    project_name = get_name()
-    project_path = build_path(project_name)
+    project_name: str = get_name()
+    project_path: Path = build_path(project_name)
 
     if build_local_repo(project_path):
         rename_temp_names("src", project_path, project_name)
