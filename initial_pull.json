@@ -1,0 +1,131 @@
+{
+    "ResponseMetadata": {
+        "RequestId": "b737d1e2-b8d5-4ace-8623-e580ef20cacd",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "date": "Sat, 27 Jun 2026 04:39:53 GMT",
+            "content-type": "application/json",
+            "content-length": "3778",
+            "connection": "keep-alive",
+            "x-amzn-requestid": "b737d1e2-b8d5-4ace-8623-e580ef20cacd",
+            "strict-transport-security": "max-age=31536000; includeSubdomains; preload"
+        },
+        "RetryAttempts": 0
+    },
+    "Status": 200,
+    "AnalysisId": "ef425854-09e9-40f7-985d-6d6ad56d969f",
+    "Name": "valid-submission.csv analysis",
+    "ResourceStatus": "CREATION_SUCCESSFUL",
+    "ThemeArn": "arn:aws:quicksight::aws:theme/NITRO",
+    "Definition": {
+        "DataSetIdentifierDeclarations": [
+            {
+                "Identifier": "valid-submission.csv",
+                "DataSetArn": "arn:aws:quicksight:us-east-1:679432970382:dataset/437836d8-32c7-4986-97a8-703ae8d2ae25"
+            }
+        ],
+        "Sheets": [
+            {
+                "SheetId": "cd89d623-85d8-42f6-b5fb-eaf75460d7f0",
+                "Name": "Test",
+                "Visuals": [
+                    {
+                        "TableVisual": {
+                            "VisualId": "5cac570f-b10b-4ee0-a663-794c1f15a1f0",
+                            "Title": {
+                                "Visibility": "VISIBLE"
+                            },
+                            "Subtitle": {
+                                "Visibility": "VISIBLE"
+                            },
+                            "ChartConfiguration": {
+                                "FieldWells": {
+                                    "TableAggregatedFieldWells": {
+                                        "GroupBy": [
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "valid-sub-country-aa0700.0.1782535165896",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "valid-submission.csv",
+                                                        "ColumnName": "country"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "CategoricalDimensionField": {
+                                                    "FieldId": "valid-sub-product_o-4a7464.1.1782535166826",
+                                                    "Column": {
+                                                        "DataSetIdentifier": "valid-submission.csv",
+                                                        "ColumnName": "product_owner"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "Values": []
+                                    }
+                                },
+                                "SortConfiguration": {}
+                            },
+                            "Actions": []
+                        }
+                    }
+                ],
+                "Layouts": [
+                    {
+                        "Configuration": {
+                            "GridLayout": {
+                                "Elements": [
+                                    {
+                                        "ElementId": "5cac570f-b10b-4ee0-a663-794c1f15a1f0",
+                                        "ElementType": "VISUAL",
+                                        "ColumnSpan": 18,
+                                        "RowSpan": 12
+                                    }
+                                ],
+                                "CanvasSizeOptions": {
+                                    "ScreenCanvasSizeOptions": {
+                                        "ResizeOption": "FIXED",
+                                        "OptimizedViewPortWidth": "1600px"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "ContentType": "INTERACTIVE"
+            }
+        ],
+        "CalculatedFields": [],
+        "ParameterDeclarations": [],
+        "FilterGroups": [],
+        "AnalysisDefaults": {
+            "DefaultNewSheetConfiguration": {
+                "InteractiveLayoutConfiguration": {
+                    "Grid": {
+                        "CanvasSizeOptions": {
+                            "ScreenCanvasSizeOptions": {
+                                "ResizeOption": "FIXED",
+                                "OptimizedViewPortWidth": "1600px"
+                            }
+                        }
+                    }
+                },
+                "SheetContentType": "INTERACTIVE"
+            }
+        },
+        "Options": {
+            "WeekStart": "SUNDAY",
+            "QBusinessInsightsStatus": "DISABLED",
+            "ExcludedDataSetArns": [],
+            "CustomActionDefaults": {
+                "highlightOperation": {
+                    "Trigger": "DATA_POINT_CLICK"
+                }
+            }
+        },
+        "QueryExecutionOptions": {
+            "QueryExecutionMode": "AUTO"
+        }
+    },
+    "RequestId": "b737d1e2-b8d5-4ace-8623-e580ef20cacd"
+}

@@ -22,20 +22,34 @@ def pull(analysis_payload: AnalysisPayload) -> dict[str, Any]:
     if analysis_payload.version_set:
         kwargs["VersionNUMBER"] = analysis_payload.version
 
-    return quick_client.describe_analysis(**kwargs)
+    return quick_client.describe_analysis_definition(**kwargs)
 
 
-def update(analysis_description: dict[str, Any]) -> dict[str, Any]:
+def update(analysis_payload: AnalysisPayload, analysis_description: dict[str, Any]) -> dict[str, Any]:
     """
     Updated the given Analysis with the provided
+
+    :param analysis_payload:
     :param analysis_description:
     :return: response
     """
 
-    response = quick_client.update_analysis(analysis_description)
+    response = quick_client.update_analysis(
+        AwsAccountId=analysis_payload.aws_account_id,
+        AnalysisId=analysis_payload.id,
+        Name=analysis_payload.name,
+        Definition=analysis_description["Definition"]
+    )
 
-    if response["status"] == 200:
-        return response
-    else:
+    if response["UpdateStatus"] == "UPDATE_FAILED":
         error_message = response["Error"]["Message"]
         raise RuntimeError(f"Failed to update analysis due to {error_message}")
+
+    return response
+
+
+def promote(beta: AnalysisPayload, prod: AnalysisPayload) -> dict[str, Any]:
+    beta_analysis_definition = pull(beta)
+    update_response = update(prod, beta_analysis_definition)
+
+    return update_response

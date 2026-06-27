@@ -6,6 +6,7 @@ from re import compile
 class AnalysisPayload:
     id: str
     aws_account_id: str
+    name: str
     version: int = 0
     version_set: bool = False
 

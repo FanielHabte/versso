@@ -6,6 +6,7 @@ dependencies = [
     "boto3>=1.43.36",
     "boto3-stubs~=1.43.36",
     "botocore>=1.43.36",
+    "click>=8.4.2",
     "gitpython>=3.1.50",
     "multipledispatch>=1.0.0",
     "mypy>=1.11",
@@ -14,4 +15,4 @@ dependencies = [
 ]
 
 [project.scripts]
-versso-init = "versso:initialize"
+versso = "versso.command:initialize"
