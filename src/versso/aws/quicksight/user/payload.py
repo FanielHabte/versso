@@ -2,7 +2,8 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class DashboardPayload:
-    dashboard_id: str
+class UserPayload:
+    user_id: str
+    name_space: str
     aws_account_id: str
-    name: str
+    user_name: str

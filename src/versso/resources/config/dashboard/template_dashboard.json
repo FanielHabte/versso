@@ -1,0 +1,204 @@
+{
+  "AwsAccountId": "679432970382",
+  "DashboardId": "{new_dashboard_id}",
+  "Name": "{new_dashboard_name}",
+  "ThemeArn": "arn:aws:quicksight::aws:theme/NITRO",
+  "Definition": {
+    "DataSetIdentifierDeclarations": [
+      {
+        "Identifier": "template-dataset",
+        "DataSetArn": "arn:aws:quicksight:us-east-1:679432970382:dataset/a6a7c2fb-ea0a-484a-9d76-a002c0f683b0"
+      }
+    ],
+    "Sheets": [
+      {
+        "SheetId": "template-sheet-id",
+        "Name": "Sheet 1",
+        "ContentType": "INTERACTIVE",
+        "Visuals": [
+          {
+            "PivotTableVisual": {
+              "VisualId": "pivot-table-summary-visual",
+              "Title": {
+                "Visibility": "VISIBLE"
+              },
+              "Subtitle": {
+                "Visibility": "VISIBLE"
+              },
+              "ChartConfiguration": {
+                "FieldWells": {
+                  "PivotTableAggregatedFieldWells": {
+                    "Rows": [
+                      {
+                        "CategoricalDimensionField": {
+                          "FieldId": "row-dimension-feedback",
+                          "Column": {
+                            "DataSetIdentifier": "template-dataset",
+                            "ColumnName": "feedback"
+                          }
+                        }
+                      }
+                    ],
+                    "Columns": [
+                      {
+                        "CategoricalDimensionField": {
+                          "FieldId": "col-dimension-customer",
+                          "Column": {
+                            "DataSetIdentifier": "template-dataset",
+                            "ColumnName": "customer_name"
+                          }
+                        }
+                      },
+                      {
+                        "CategoricalDimensionField": {
+                          "FieldId": "col-dimension-product",
+                          "Column": {
+                            "DataSetIdentifier": "template-dataset",
+                            "ColumnName": "product"
+                          }
+                        }
+                      }
+                    ],
+                    "Values": []
+                  }
+                },
+                "SortConfiguration": {
+                  "FieldSortOptions": []
+                },
+                "TableOptions": {
+                  "ColumnHeaderStyle": {},
+                  "CellStyle": {},
+                  "RowFieldNamesStyle": {},
+                  "RowAlternateColorOptions": {
+                    "Status": "DISABLED",
+                    "UsePrimaryBackgroundColor": "ENABLED"
+                  },
+                  "CollapsedRowDimensionsVisibility": "HIDDEN",
+                  "RowsLayout": "HIERARCHY"
+                },
+                "TotalOptions": {
+                  "RowSubtotalOptions": {
+                    "TotalsVisibility": "VISIBLE",
+                    "CustomLabel": "<<$aws:subtotalDimension>> Subtotal",
+                    "TotalCellStyle": {},
+                    "ValueCellStyle": {},
+                    "MetricHeaderCellStyle": {},
+                    "StyleTargets": [
+                      { "CellType": "VALUE" },
+                      { "CellType": "TOTAL" },
+                      { "CellType": "METRIC_HEADER" }
+                    ]
+                  },
+                  "RowTotalOptions": {
+                    "Placement": "AUTO"
+                  },
+                  "ColumnTotalOptions": {
+                    "Placement": "END"
+                  }
+                },
+                "FieldOptions": {
+                  "SelectedFieldOptions": [
+                    {
+                      "FieldId": "row-dimension-feedback",
+                      "Visibility": "VISIBLE"
+                    },
+                    {
+                      "FieldId": "col-dimension-customer",
+                      "Visibility": "VISIBLE"
+                    },
+                    {
+                      "FieldId": "col-dimension-product",
+                      "Visibility": "VISIBLE"
+                    }
+                  ]
+                }
+              },
+              "Actions": []
+            }
+          }
+        ],
+        "Layouts": [
+          {
+            "Configuration": {
+              "GridLayout": {
+                "Elements": [
+                  {
+                    "ElementId": "pivot-table-summary-visual",
+                    "ElementType": "VISUAL",
+                    "ColumnSpan": 18,
+                    "RowSpan": 12
+                  }
+                ],
+                "CanvasSizeOptions": {
+                  "ScreenCanvasSizeOptions": {
+                    "ResizeOption": "FIXED",
+                    "OptimizedViewPortWidth": "1600px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "CalculatedFields": [],
+    "ParameterDeclarations": [],
+    "FilterGroups": [],
+    "AnalysisDefaults": {
+      "DefaultNewSheetConfiguration": {
+        "InteractiveLayoutConfiguration": {
+          "Grid": {
+            "CanvasSizeOptions": {
+              "ScreenCanvasSizeOptions": {
+                "ResizeOption": "FIXED",
+                "OptimizedViewPortWidth": "1600px"
+              }
+            }
+          }
+        },
+        "SheetContentType": "INTERACTIVE"
+      }
+    },
+    "Options": {
+      "WeekStart": "SUNDAY",
+      "QBusinessInsightsStatus": "DISABLED",
+      "ExcludedDataSetArns": [],
+      "CustomActionDefaults": {
+        "highlightOperation": {
+          "Trigger": "DATA_POINT_CLICK"
+        }
+      }
+    }
+  },
+  "DashboardPublishOptions": {
+    "AdHocFilteringOption": { "AvailabilityStatus": "DISABLED" },
+    "ExportToCSVOption": { "AvailabilityStatus": "ENABLED" },
+    "SheetControlsOption": { "VisibilityState": "COLLAPSED" },
+    "SheetLayoutElementMaximizationOption": { "AvailabilityStatus": "ENABLED" },
+    "VisualMenuOption": { "AvailabilityStatus": "ENABLED" },
+    "VisualAxisSortOption": { "AvailabilityStatus": "ENABLED" },
+    "ExportWithHiddenFieldsOption": { "AvailabilityStatus": "DISABLED" },
+    "DataPointDrillUpDownOption": { "AvailabilityStatus": "ENABLED" },
+    "DataPointMenuLabelOption": { "AvailabilityStatus": "ENABLED" },
+    "DataPointTooltipOption": { "AvailabilityStatus": "ENABLED" },
+    "DataQAEnabledOption": { "AvailabilityStatus": "DISABLED" },
+    "QuickSuiteActionsOption": { "AvailabilityStatus": "DISABLED" },
+    "ExecutiveSummaryOption": { "AvailabilityStatus": "ENABLED" },
+    "DataStoriesSharingOption": { "AvailabilityStatus": "ENABLED" }
+  },
+  "Permissions": [
+    {
+      "Principal": "arn:aws:quicksight:us-east-1:679432970382:user/default/679432970382",
+      "Actions": [
+        "quicksight:DescribeDashboard",
+        "quicksight:ListDashboardVersions",
+        "quicksight:UpdateDashboard",
+        "quicksight:DeleteDashboard",
+        "quicksight:QueryDashboard",
+        "quicksight:UpdateDashboardPublishedVersion",
+        "quicksight:DescribeDashboardPermissions",
+        "quicksight:UpdateDashboardPermissions"
+      ]
+    }
+  ]
+}

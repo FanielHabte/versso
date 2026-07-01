@@ -1,0 +1,26 @@
+{
+  "AwsAccountId": "679432970382",
+  "FolderId": "fani-dev-web-analytics",
+  "Name": "Web-Analytics",
+  "FolderType": "SHARED",
+  "ParentFolderArn": "arn:aws:quicksight:us-east-1:679432970382:folder/fani-dev-folder",
+  "Permissions": [
+    {
+      "Principal": "arn:aws:quicksight:us-east-1:679432970382:user/default/679432970382",
+      "Actions": [
+        "quicksight:CreateFolder",
+        "quicksight:DescribeFolder",
+        "quicksight:CreateFolderMembership",
+        "quicksight:DeleteFolderMembership",
+        "quicksight:DescribeFolderPermissions"
+      ]
+    }
+  ],
+  "Tags": [
+    {
+      "Key": "project",
+      "Value": "web-analytics"
+    }
+  ],
+  "SharingModel": "ACCOUNT"
+}

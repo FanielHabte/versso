@@ -1,0 +1,29 @@
+{
+  "AwsAccountId": "679432970382",
+  "FolderId": "central-analytics-team-web-analytics-analyses",
+  "Name": "Analyses",
+  "FolderType": "SHARED",
+  "ParentFolderArn": "arn:aws:quicksight:us-east-1:679432970382:folder/central-analytics-team-web-analytics-project",
+  "Permissions": [
+    {
+      "Principal": "arn:aws:quicksight:us-east-1:679432970382:user/default/679432970382",
+      "Actions": [
+        "quicksight:CreateFolder",
+        "quicksight:DescribeFolder",
+        "quicksight:UpdateFolder",
+        "quicksight:DeleteFolder",
+        "quicksight:UpdateFolderPermissions",
+        "quicksight:DescribeFolderPermissions",
+        "quicksight:CreateFolderMembership",
+        "quicksight:DeleteFolderMembership"
+      ]
+    }
+  ],
+  "Tags": [
+    {
+      "Key": "project",
+      "Value": "web-analytics"
+    }
+  ],
+  "SharingModel": "ACCOUNT"
+}

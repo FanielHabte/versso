@@ -1,0 +1,25 @@
+{
+  "AwsAccountId": "679432970382",
+  "FolderId": "fani-dev-folder",
+  "Name": "fani-dev-folder",
+  "FolderType": "SHARED",
+  "Permissions": [
+    {
+      "Principal": "arn:aws:quicksight:us-east-1:679432970382:user/default/679432970382",
+      "Actions": [
+        "quicksight:CreateFolder",
+        "quicksight:DescribeFolder",
+        "quicksight:CreateFolderMembership",
+        "quicksight:DeleteFolderMembership",
+        "quicksight:DescribeFolderPermissions"
+      ]
+    }
+  ],
+  "Tags": [
+    {
+      "Key": "user",
+      "Value": "fani"
+    }
+  ],
+  "SharingModel": "ACCOUNT"
+}

@@ -1,0 +1,67 @@
+{
+  "AwsAccountId": "679432970382",
+  "AnalysisId": "{new_analysis_id}",
+  "Name": "{new_analysis_name}",
+  "ThemeArn": "arn:aws:quicksight::aws:theme/NITRO",
+  "Definition": {
+    "DataSetIdentifierDeclarations": [
+      {
+        "Identifier": "template-dataset",
+        "DataSetArn": "arn:aws:quicksight:us-east-1:679432970382:dataset/a6a7c2fb-ea0a-484a-9d76-a002c0f683b0"
+      }
+    ],
+    "Sheets": [
+      {
+        "SheetId": "f44daeb9-cd60-4ff4-9c20-c8a8d68de35b",
+        "Name": "Sheet 1",
+        "Visuals": [],
+        "Layouts": [
+          {
+            "Configuration": {
+              "GridLayout": {
+                "Elements": [],
+                "CanvasSizeOptions": {
+                  "ScreenCanvasSizeOptions": {
+                    "ResizeOption": "FIXED",
+                    "OptimizedViewPortWidth": "1600px"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "ContentType": "INTERACTIVE"
+      }
+    ],
+    "AnalysisDefaults": {
+      "DefaultNewSheetConfiguration": {
+        "InteractiveLayoutConfiguration": {
+          "Grid": {
+            "CanvasSizeOptions": {
+              "ScreenCanvasSizeOptions": {
+                "ResizeOption": "FIXED",
+                "OptimizedViewPortWidth": "1600px"
+              }
+            }
+          }
+        },
+        "SheetContentType": "INTERACTIVE"
+      }
+    }
+  },
+  "Permissions": [
+    {
+      "Principal": "arn:aws:quicksight:us-east-1:679432970382:user/default/679432970382",
+      "Actions": [
+        "quicksight:RestoreAnalysis",
+        "quicksight:UpdateAnalysisPermissions",
+        "quicksight:DeleteAnalysis",
+        "quicksight:DescribeAnalysisPermissions",
+        "quicksight:QueryAnalysis",
+        "quicksight:DescribeAnalysis",
+        "quicksight:UpdateAnalysis"
+      ]
+    }
+  ]
+}
+

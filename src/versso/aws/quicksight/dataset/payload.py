@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass()
+@dataclass(frozen=True)
 class DatasetPayload:
-    id: str
+    dataset_id: str
     account_id = str
-    version: int = None
-    version_set: bool = False

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class QuickSightAccountPayload:
+class AwsAccountPayload:
     id: str
-    name_space: str
+    alias: str
+    region: str
