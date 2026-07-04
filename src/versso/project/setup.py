@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 import os
-from versso.git import local
+from versso.project import template
 
 BOLD = "\033[1m"
 GREEN = "\033[32m"
@@ -53,7 +53,7 @@ def build_local_repo(project_path: Path) -> bool:
         bool: status of the process (True/False)
     """
     if not project_path.exists():
-        local_repo.build(project_path)
+        template.build(project_path)
         print(f"  {CYAN}●{RESET} Setting up repository structure... Done")
         return True
     else:

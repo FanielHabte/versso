@@ -3,12 +3,12 @@ from pathlib import Path
 from shutil import rmtree
 
 
-def clone_template(project_path: Path) -> None:
+def clone(project_path: Path) -> None:
     Repo.clone_from("https://github.com/FanielHabte/vesso-template.git", project_path)
 
 
 def delete_git_folder(project_path: Path) -> None:
-    dot_git: Path = project_path / ".git"
+    dot_git: Path = project_path / ".project"
 
     try:
         if dot_git.exists():
@@ -16,7 +16,7 @@ def delete_git_folder(project_path: Path) -> None:
         else:
             raise FileNotFoundError(f"Error: {project_path} not found")
     except OSError as e:
-        raise OSError(f"Error: unable to delete .git folder using rmtree.") from e
+        raise OSError(f"Error: unable to delete .project folder using rmtree.") from e
 
 
 def initiate(project_path: Path) -> None:
@@ -24,7 +24,7 @@ def initiate(project_path: Path) -> None:
 
 
 def build(project_path: Path) -> bool:
-    clone_template(project_path)
+    clone(project_path)
     delete_git_folder(project_path)
     initiate(project_path)
 

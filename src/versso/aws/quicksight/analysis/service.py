@@ -3,6 +3,7 @@ from typing import Any
 from versso.aws.quicksight.analysis.payload import AnalysisPayload
 from pathlib import Path
 from versso.util.helper import fetch
+from versso.aws.quicksight.analysis.factory import build_prod_analysis_payload
 
 
 def analysis_describe(analysis_payload: AnalysisPayload, quicksight_client) -> dict[str, Any]:
@@ -61,7 +62,8 @@ def analysis_update(analysis_payload: AnalysisPayload,
 def analysis_clone(original_analyses: AnalysisPayload,
                    project_name: str,
                    quicksight_client) -> dict[str, Any]:
-    temp_create_response = analysis_create_template(project_name=project_name)
+    temp_create_response = analysis_create_template(project_name=project_name,
+                                                    quick_client=quicksight_client)
     template = AnalysisPayload(analysis_id=temp_create_response["AnalysisId"],
                                aws_account_id="679432970382",
                                name=f"fani-{project_name}-analyses")
@@ -72,9 +74,13 @@ def analysis_clone(original_analyses: AnalysisPayload,
     return update_response
 
 
+def get_prod_analysis_payload() -> AnalysisPayload:
+    return build_prod_analysis_payload()
+
+
 ## Helper Functions ##
 
-def analysis_create_template(project_name: str) -> dict[str, Any]:
+def analysis_create_template(project_name: str, quick_client) -> dict[str, Any]:
     build_response = quick_client.create_analysis(**build_analyses_definition(project_name))
 
     return build_response
@@ -90,25 +96,8 @@ def build_analyses_definition(project_name):
     return analyses_def
 
 
-
 def get_path(file_name: str):
-    root_path = Path("/Users/fanielhabte/PycharmProjects/versso")
-    file_path = root_path / f"src/versso/resources/config/analyses/{file_name}.json"
+    root_path = Path(__file__).parent.parent.parent.parent
+    file_path = root_path / f"resources/config/analyses/{file_name}.json"
 
     return file_path
-
-
-if __name__ == "__main__":
-    from versso.aws.quicksight.account.service import get_qs_client_from_session
-
-    my_project_name = "web-analytics"
-    quick_client = get_qs_client_from_session("us-east-1", "default")
-    prod_analyses = AnalysisPayload(analysis_id="dd610b8f-bdf7-4be0-b90d-86fc30404293",
-                                    aws_account_id="679432970382",
-                                    name="web-analytics-analyses-prod")
-
-    response = analysis_clone(original_analyses=prod_analyses,
-                              project_name=my_project_name,
-                              quicksight_client=quick_client)
-
-    print(response)

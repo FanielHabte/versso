@@ -6,5 +6,3 @@ def get_aws_account_payload():
     aws_config = get_manifest_file()["aws"]
 
     return build_aws_payload(aws_config=aws_config)
-
-

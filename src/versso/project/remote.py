@@ -1,7 +1,7 @@
 # Reads .verso/manifest.json from the lead's prod repo
 # (AWS account, dashboard ID, team-folder path). Deep-copies the prod dashboard folder
 #  from the team folder into the BIE's own QS folder — a fresh analysis resource pointing at the prod dataset.json
-#  (read-only). Cuts a git branch bie/<user>/<feature>.
+#  (read-only). Cuts a project branch bie/<user>/<feature>.
 from dataclasses import dataclass
 from re import compile
 import versso
@@ -29,7 +29,7 @@ class BranchPayload:
 
 
 def get_config_details():
-    print("Please provide the below details to initiate cloning")
+    print("Please provide the below details to template cloning")
     aws_account_id = input("Aws account id: ")
     dashboard_id = input("QuickSight id: ")
     dashboard_folder_id = input("Containing folder id: ")
