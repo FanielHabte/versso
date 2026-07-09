@@ -20,12 +20,7 @@ def fetch(file_path: Path) -> dict[str, Any]:
     return json_data
 
 
-def get_project_root_path() -> Path:
+def project_root() -> Path:
     return Path(__file__).resolve().parent.parent.parent.parent
 
 
-def get_manifest_file() -> dict[str, Any]:
-    root_path = get_project_root_path()
-    manifest_file_path = root_path / "src/versso/resources/main/manifest.json"
-
-    return fetch(manifest_file_path)

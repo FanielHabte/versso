@@ -1,9 +1,9 @@
-import versso as v
+from versso import quicksight
 
-my_project_name = "web-analytics"
-quick_client = v.get_qs_client_from_session("default", "us-east-1")
-prod_analysis = v.get_prod_analysis_payload()
+context = quicksight.Context.load()
+builder = quicksight.Builder(context)
 
-response = v.analysis_describe(analysis_payload=prod_analysis, quicksight_client=quick_client)
+project_folder = builder.build_project_folder()
+subfolder = project_folder.subfolders()
 
-print(response)
+print(subfolder[0].add_subfolder("test"))

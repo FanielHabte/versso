@@ -1,4 +1,4 @@
-# Reads .verso/manifest.json from the lead's prod repo
+# Reads .verso/builder.json from the lead's prod repo
 # (AWS account, dashboard ID, team-folder path). Deep-copies the prod dashboard folder
 #  from the team folder into the BIE's own QS folder — a fresh analysis resource pointing at the prod dataset.json
 #  (read-only). Cuts a project branch bie/<user>/<feature>.
