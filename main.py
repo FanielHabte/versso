@@ -1,9 +1,7 @@
-from versso import quicksight
+from versso import quicksight, git
 
 context = quicksight.Context.load()
-builder = quicksight.Builder(context)
+git_builder = git.Builder(context=context)
+local_repo = git_builder.build_local_repo()
 
-project_folder = builder.build_project_folder()
-subfolder = project_folder.subfolders()
-
-print(subfolder[0].add_subfolder("test"))
+local_repo.build()

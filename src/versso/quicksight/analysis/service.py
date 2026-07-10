@@ -85,7 +85,7 @@ class Analysis(Service):
 
     def clone(self) -> "Analysis":
         """
-        Creates a duplicate instance of the current analysis using a template-built workspace.
+        Creates a duplicate instance of the current analysis using a remote-built workspace.
 
         :return: A new, updated Analysis object mimicking this instance's layout.
         """
@@ -115,7 +115,7 @@ class Analysis(Service):
         """
         Generates an initial analysis deployment shell derived from structural manifest details.
 
-        :return: An active AnalysisPayload pointing to the newly generated template placeholder.
+        :return: An active AnalysisPayload pointing to the newly generated remote placeholder.
         """
 
         template_definition: dict = _build_template_definition(

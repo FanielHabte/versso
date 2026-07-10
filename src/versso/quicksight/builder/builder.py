@@ -96,7 +96,7 @@ class Builder:
         )
 
     def build_project_folder_payload(self) -> _FolderPayload:
-        project_config = self.context.folder["project"]
+        project_config = self.context.folder["local"]
 
         return _build_folder_payload(
             folder_id=project_config["id"],

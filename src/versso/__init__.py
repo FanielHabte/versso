@@ -1,4 +1,4 @@
 # src/versso/__init__.py
-from . import quicksight
+from . import quicksight, git
 
-__all__ = ["quicksight"]
+__all__ = ["quicksight", "git"]

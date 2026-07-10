@@ -112,7 +112,7 @@ class Dashboard(Service):
 
     def clone(self) -> "Dashboard":
         """
-        Creates an isolated developer template workspace, copies the current
+        Creates an isolated developer remote workspace, copies the current
         dashboard's definition layout into it, and publishes it live.
 
         Returns:
@@ -147,11 +147,11 @@ class Dashboard(Service):
 
     def _create_template(self) -> _DashboardPayload:
         """
-        Generates a development workspace template container via QuickSight API
+        Generates a development workspace remote container via QuickSight API
         using local configuration context files.
 
         Returns:
-            _DashboardPayload: The payload metadata for the newly instantiated template dashboard.
+            _DashboardPayload: The payload metadata for the newly instantiated remote dashboard.
         """
 
         template_definition: dict = _build_template_definition(
@@ -201,12 +201,12 @@ def _build_template_definition(project_name: str, user_name: str, team_name: str
     the unique Dashboard identifiers based on target operational context.
 
     Args:
-        project_name (str): Core target tracking workspace project string label.
+        project_name (str): Core target tracking workspace local string label.
         user_name (str): The alias handle of the targeted operational user identity.
         team_name (str): Name structure tracking group operational alignment.
 
     Returns:
-        dict: The final runtime request body dict parsed for building out template endpoints.
+        dict: The final runtime request body dict parsed for building out remote endpoints.
     """
 
     dashboard_def = _fetch(_get_path("template_dashboard"))

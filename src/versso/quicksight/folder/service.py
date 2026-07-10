@@ -88,7 +88,7 @@ class Folder:
         return subfolders
 
     def _load_template(self):
-        template = load_config("template")
+        template = load_config("remote")
 
         template["AwsAccountId"] = self.payload.aws_account_id
         template["Name"] = self.payload.name
@@ -173,7 +173,7 @@ def build_folder_id(folder: Folder):
 
 
 def load_child_template(parent: Folder, child_folder_name: str):
-    template = load_config("template")
+    template = load_config("remote")
 
     clean_folder_name = child_folder_name.lower().replace(' ', '_')
     template["AwsAccountId"] = parent.payload.aws_account_id

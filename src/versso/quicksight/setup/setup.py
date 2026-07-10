@@ -1,27 +1,26 @@
 from pathlib import Path
 import re
 import os
-from versso.project import template
+from versso.git.remote import template
 
 BOLD = "\033[1m"
 GREEN = "\033[32m"
 CYAN = "\033[36m"
 RESET = "\033[0m"
 
-
 def get_name() -> str:
     """
-    Collects project name from user.
+    Collects local name from user.
 
     Return:
         str: project_name
     """
     while True:
-        project_name: str = input("Please provide your project name: ").lower()
+        project_name: str = input("Please provide your local name: ").lower()
         pattern: str = r"^[a-z_]+$"
 
         if re.match(pattern, project_name):
-            print(f"\n  {CYAN}●{RESET} Validating project name... Done ({project_name})")
+            print(f"\n  {CYAN}●{RESET} Validating local name... Done ({project_name})")
             break
         print("\n** Please enter a valid name using only lowercase letters and underscores. **", end="\n")
 
@@ -30,10 +29,10 @@ def get_name() -> str:
 
 def build_path(project_name: str) -> Path:
     """
-    Builds project path from the current working directory.
+    Builds local path from the current working directory.
 
     Args:
-        project_name (str): project name that the user inputted
+        project_name (str): local name that the user inputted
     Returns:
         Path: project_path (Path object)
     """
@@ -45,10 +44,10 @@ def build_path(project_name: str) -> Path:
 
 def build_local_repo(project_path: Path) -> bool:
     """
-    Builds and initializes a local repo from a remote template.
+    Builds and initializes a local repo from a remote remote.
 
     Args:
-        project_path (Path): project path (equivalent to current working directory)
+        project_path (Path): local path (equivalent to current working directory)
     Returns:
         bool: status of the process (True/False)
     """
@@ -58,21 +57,21 @@ def build_local_repo(project_path: Path) -> bool:
         return True
     else:
         raise Exception(
-            f"Cannot clone template: Directory '{project_path}' already exists. Please delete it or choose a different path and try again.")
+            f"Cannot clone remote: Directory '{project_path}' already exists. Please delete it or choose a different path and try again.")
 
 
 def rename_temp_names(parent_dir_name: str, project_path: Path, project_name: str) -> bool:
     """
-    Renames temp names used in the directory of the template repo to project name
+    Renames temp names used in the directory of the remote repo to local name
 
     Args:
         parent_dir_name (str): parent directory of the folders (src/test)
-        project_name (str): project name replacing temp names
-        project_path (Path): project path (equivalent to current working directory)
+        project_name (str): local name replacing temp names
+        project_path (Path): local path (equivalent to current working directory)
     Returns:
         bool: status of the process (True/False)
     """
-    old_project_dir: Path = project_path / f"{parent_dir_name}/template"
+    old_project_dir: Path = project_path / f"{parent_dir_name}/remote"
     new_project_dir: Path = project_path / f"{parent_dir_name}/{project_name}"
     old_project_dir.replace(new_project_dir)
 
@@ -81,17 +80,17 @@ def rename_temp_names(parent_dir_name: str, project_path: Path, project_name: st
 
 def initialize() -> None:
     """
-    Orchestrates the creation and initialization of a new project.
+    Orchestrates the creation and initialization of a new local.
 
     This function coordinates three modular functions to prompt the user,
-    clone a remote template, and customize the directory structure.
+    clone a remote remote, and customize the directory structure.
 
     The orchestration follows these steps:
-        1. Collects the project name from the user.
-        2. Builds the project path using the current working directory.
-        3. Clones and initializes a local repository from a remote template.
-        4. Renames temporary placeholder names within the template directory
-           to match the new project name.
+        1. Collects the local name from the user.
+        2. Builds the local path using the current working directory.
+        3. Clones and initializes a local repository from a remote remote.
+        4. Renames temporary placeholder names within the remote directory
+           to match the new local name.
 
     Returns:
         None
@@ -104,7 +103,7 @@ def initialize() -> None:
     if build_local_repo(project_path):
         rename_temp_names("src", project_path, project_name)
         rename_temp_names("test", project_path, project_name)
-    print(f"  {CYAN}●{RESET} Configuring project source and tests... Done\n")
+    print(f"  {CYAN}●{RESET} Configuring local source and tests... Done\n")
 
     print(f"{BOLD}{GREEN}✔ Success!{RESET} Project '{project_name}' built successfully.")
 
