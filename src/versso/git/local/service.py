@@ -1,3 +1,4 @@
+from pathlib import Path
 from shutil import rmtree
 from git import Repo
 
@@ -15,13 +16,18 @@ class LocalRepo:
 
     def build(self):
         self.remote_template.clone()
-        self.clean()
-        self.init()
+        self.delete_git_file()
+        rename_dirs(
+            folder_names=["src", "test"],
+            project_path=self.local_repo_payload.path,
+            project_name=self.local_repo_payload.name
+        )
+        self.git_init()
 
-    def init(self):
+    def git_init(self):
         Repo.init(self.local_repo_payload.path)
 
-    def clean(self):
+    def delete_git_file(self):
         dot_git = self.local_repo_payload.path / ".git"
 
         try:
@@ -31,3 +37,23 @@ class LocalRepo:
                 raise FileNotFoundError(f"Error: {dot_git} not found")
         except OSError as e:
             raise OSError(f"Error: unable to delete .local_repo folder using rmtree.") from e
+
+
+def rename_dirs(folder_names: list, project_path: Path, project_name: str) -> bool:
+    """
+    Renames temp names used in the directory of the remote repo to local name
+
+    Args:
+        folder_names (list): parent directory of the folders (src/test)
+        project_name (str): local name replacing temp names
+        project_path (Path): local path (equivalent to current working directory)
+    Returns:
+        bool: status of the process (True/False)
+    """
+    project_name = project_name.replace("-", "_")
+    for folder_name in folder_names:
+        old_project_dir: Path = project_path / f"{folder_name}/template"
+        new_project_dir: Path = project_path / f"{folder_name}/{project_name}"
+        old_project_dir.replace(new_project_dir)
+
+    return True
