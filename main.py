@@ -1,5 +1,6 @@
+import json
+
 from versso import quicksight, git
-from versso.quicksight import Folder
 
 context = quicksight.Context.load()
 builder = quicksight.Builder(context)
@@ -15,7 +16,6 @@ prod_folder = quicksight.Folder(
     client=client
 )
 
+j_string = json.dumps(prod_folder.all_resources(), indent=2)
 
-resources = prod_folder.all_resources()
-
-print(resources)
+print(j_string)

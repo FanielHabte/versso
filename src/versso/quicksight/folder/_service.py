@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 from versso.quicksight.folder._factory import build_folder_payload
 from versso.quicksight.folder._payload import FolderPayload
@@ -84,7 +85,7 @@ class Folder:
 
         return subfolders
 
-    def resources(self):
+    def resources(self) -> list[dict]:
         kwargs = {
             "AwsAccountId": self.payload.aws_account_id,
             "FolderId": self.payload.folder_id
@@ -92,16 +93,21 @@ class Folder:
 
         response = self.client.list_folder_members(**kwargs)
 
-        return response["FolderMemberList"]
+        return _parse_resources(response["FolderMemberList"])
 
     def all_resources(self) -> dict[str, list]:
         # initialize a dict with a parent id as key
-        resources: dict[str, list] = {self.payload.folder_id: []}
+        all_resources: dict[str, Any] = {
+            "id": self.payload.folder_id,
+            "name": self.payload.name,
+            "subfolders": [],
+            "resources": self.resources()
+        }
 
         # call recursive
-        _recursive_folders(self, resources)
+        _recursive_folders(self, all_resources)
 
-        return resources
+        return all_resources
 
     def _load_template(self):
         template = load_config("remote")
@@ -202,15 +208,38 @@ def load_child_template(parent: Folder, child_folder_name: str):
     return template
 
 
-def _recursive_folders(folder: Folder, resources: dict) -> None:
-    # there is no key for the folder id add
-    if folder.payload.folder_id not in resources:
-        resources[folder.payload.folder_id] = []
+def _parse_resources(resources_list: list[dict]):
+    # "id": "172af51b-19c6-4802-bc95-b845de7ebad0",
+    # "name": "Web Traffic Dataset",
+    # "type": "DATASET",
+    # "arn": "arn:aws:quicksight:us-east-1:679432970382:dataset/172af51b-19c6-4802-bc95-b845de7ebad0"
 
-    # add resources to the key list
-    resources[folder.payload.folder_id] += folder.resources()
+    for index, resource in enumerate(resources_list):
+        arn = resource["MemberArn"]
+        r_type = arn.split(":")[-1].split("/")[0].upper()
 
+        parsed_strct = {
+            "id": resource["MemberId"],
+            "arn": resource["MemberArn"],
+            "type": r_type,
+        }
+
+        resources_list[index] = parsed_strct
+
+    return resources_list
+
+
+def _recursive_folders(parent: Folder, all_resources: dict[str, Any]) -> None:
     # check if the there are sub folder
-    for sub_folder in folder.subfolders():
+    for child in parent.subfolders():
+        child_all_resources = {
+            "id": child.payload.folder_id,
+            "name": child.payload.name,
+            "subfolders": [],
+            "resources": child.resources()
+        }
+
+        all_resources["subfolders"].append(child_all_resources)
+
         # call it's self
-        _recursive_folders(sub_folder, resources)
+        _recursive_folders(child, child_all_resources)
