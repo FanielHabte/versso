@@ -1,4 +1,4 @@
-from versso.quicksight.dashboard.payload import DashboardPayload
+from versso.quicksight.dashboard._payload import DashboardPayload
 
 
 def build_dashboard_payload(dashboard_id: str, aws_account_id: str, alias: str) -> DashboardPayload:

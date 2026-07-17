@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from versso.git.local.payload import LocalRepoPayload
-from versso.git.local.service import LocalRepo
-from versso.quicksight import Context
+from versso.git.local._payload import LocalRepoPayload as _LocalRepoPayload
+from versso.git.local._service import LocalRepo as _LocalRepo
+from versso.quicksight import Context as _Context
 
 
 def _build_path(directory: str):
@@ -14,17 +14,17 @@ def _build_path(directory: str):
 
 
 class Builder:
-    def __init__(self, context: Context):
+    def __init__(self, context: _Context):
         self.context = context
 
-    def build_local_repo_payload(self) -> LocalRepoPayload:
+    def build_local_repo_payload(self) -> _LocalRepoPayload:
         project_context = self.context.project
-        return LocalRepoPayload(
+        return _LocalRepoPayload(
             path=_build_path(project_context["path"]),
             name=project_context["name"]
         )
 
-    def build_local_repo(self) -> LocalRepo:
+    def build_local_repo(self) -> _LocalRepo:
         """
         Factory function to construct a verified AnalysisPayload instance.
 
@@ -32,7 +32,7 @@ class Builder:
 
         :return: A populated AnalysisPayload data structure instance.
         """
-        return LocalRepo(
+        return _LocalRepo(
             context=self.context,
             local_repo_payload=self.build_local_repo_payload()
         )

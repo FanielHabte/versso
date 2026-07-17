@@ -2,19 +2,19 @@ __all__ = ["Builder"]
 
 from versso.quicksight.account._factory import build_client as _build_client
 
-from versso.quicksight.analysis.factory import build_analysis_payload as _build_analysis_payload
-from versso.quicksight.analysis.payload import AnalysisPayload as _AnalysisPayload
-from versso.quicksight.analysis.service import Analysis as _Analysis
+from versso.quicksight.analysis._factory import build_analysis_payload as _build_analysis_payload
+from versso.quicksight.analysis._payload import AnalysisPayload as _AnalysisPayload
+from versso.quicksight.analysis._service import Analysis as _Analysis
 
-from versso.quicksight.dashboard.factory import build_dashboard_payload as _build_dashboard_payload
-from versso.quicksight.dashboard.payload import DashboardPayload as _DashboardPayload
-from versso.quicksight.dashboard.service import Dashboard as _Dashboard
+from versso.quicksight.dashboard._factory import build_dashboard_payload as _build_dashboard_payload
+from versso.quicksight.dashboard._payload import DashboardPayload as _DashboardPayload
+from versso.quicksight.dashboard._service import Dashboard as _Dashboard
 
-from versso.quicksight.setup.context import Context
+from versso.quicksight.setup._context import Context
 
-from versso.quicksight.folder.service import Folder as _Folder
-from versso.quicksight.folder.payload import FolderPayload as _FolderPayload
-from versso.quicksight.folder.factory import build_folder_payload as _build_folder_payload
+from versso.quicksight.folder._service import Folder as _Folder
+from versso.quicksight.folder._payload import FolderPayload as _FolderPayload
+from versso.quicksight.folder._factory import build_folder_payload as _build_folder_payload
 
 
 class Builder:
@@ -96,7 +96,7 @@ class Builder:
         )
 
     def build_project_folder_payload(self) -> _FolderPayload:
-        project_config = self.context.folder["local"]
+        project_config = self.context.folder["parent"]
 
         return _build_folder_payload(
             folder_id=project_config["id"],

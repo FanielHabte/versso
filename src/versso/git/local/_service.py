@@ -2,9 +2,9 @@ from pathlib import Path
 from shutil import rmtree
 from git import Repo
 
-from versso.git.local.payload import LocalRepoPayload
+from versso.git.local._payload import LocalRepoPayload
 from versso.git.remote.template.factory import build_remote_template
-from versso.quicksight.setup.context import Context
+from versso.quicksight.setup._context import Context
 
 
 class LocalRepo:

@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from versso.quicksight.folder.factory import build_folder_payload
-from versso.quicksight.folder.payload import FolderPayload
-from versso.quicksight.setup.context import Context
+from versso.quicksight.folder._factory import build_folder_payload
+from versso.quicksight.folder._payload import FolderPayload
+from versso.quicksight.setup._context import Context
 from versso.util.helper import fetch
 
 
@@ -54,9 +54,6 @@ class Folder:
 
         return self.client.describe_folder(**kwargs)
 
-    def update(self, definition: dict):
-        pass
-
     def clone(self):
         pass
 
@@ -86,6 +83,25 @@ class Folder:
         )
 
         return subfolders
+
+    def resources(self):
+        kwargs = {
+            "AwsAccountId": self.payload.aws_account_id,
+            "FolderId": self.payload.folder_id
+        }
+
+        response = self.client.list_folder_members(**kwargs)
+
+        return response["FolderMemberList"]
+
+    def all_resources(self) -> dict[str, list]:
+        # initialize a dict with a parent id as key
+        resources: dict[str, list] = {self.payload.folder_id: []}
+
+        # call recursive
+        _recursive_folders(self, resources)
+
+        return resources
 
     def _load_template(self):
         template = load_config("remote")
@@ -184,3 +200,17 @@ def load_child_template(parent: Folder, child_folder_name: str):
     template["Tags"][0]["Value"] = parent.context.project["name"]
 
     return template
+
+
+def _recursive_folders(folder: Folder, resources: dict) -> None:
+    # there is no key for the folder id add
+    if folder.payload.folder_id not in resources:
+        resources[folder.payload.folder_id] = []
+
+    # add resources to the key list
+    resources[folder.payload.folder_id] += folder.resources()
+
+    # check if the there are sub folder
+    for sub_folder in folder.subfolders():
+        # call it's self
+        _recursive_folders(sub_folder, resources)

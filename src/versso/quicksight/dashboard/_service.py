@@ -1,6 +1,6 @@
-from versso.quicksight.dashboard.payload import DashboardPayload as _DashboardPayload
-from versso.quicksight.interfaces.i_service import Service
-from versso.quicksight.setup.context import Context as _Context
+from versso.quicksight.dashboard._payload import DashboardPayload as _DashboardPayload
+from versso.quicksight.interfaces._i_service import Service
+from versso.quicksight.setup._context import Context as _Context
 from pathlib import Path as _Path
 from versso.util.helper import fetch as _fetch
 from time import sleep as _sleep

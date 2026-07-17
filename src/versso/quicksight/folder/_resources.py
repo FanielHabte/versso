@@ -1,6 +1,6 @@
 from typing import Any
 
-from versso.quicksight.folder.payload import FolderPayload
+from versso.quicksight.folder._payload import FolderPayload
 
 
 def find_resources_in_folder(folder_payload: Any, quick_client: Any) -> dict[str, list[str]]:
