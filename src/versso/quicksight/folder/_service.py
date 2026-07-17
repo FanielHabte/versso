@@ -1,10 +1,11 @@
 from pathlib import Path
 from typing import Any
 
-from versso.quicksight.folder._factory import build_folder_payload
+from versso.quicksight.folder._factory import build_folder_payload, build_reference_payload
 from versso.quicksight.folder._payload import FolderPayload
 from versso.quicksight.setup._context import Context
 from versso.util.helper import fetch
+from versso.quicksight.folder._resources import FolderNode, AnalysisRef, DatasetRef, DashboardRef
 
 
 class Folder:
@@ -85,7 +86,7 @@ class Folder:
 
         return subfolders
 
-    def resources(self) -> list[dict]:
+    def resources(self) -> list[AnalysisRef | DashboardRef | DatasetRef]:
         kwargs = {
             "AwsAccountId": self.payload.aws_account_id,
             "FolderId": self.payload.folder_id
@@ -93,21 +94,16 @@ class Folder:
 
         response = self.client.list_folder_members(**kwargs)
 
-        return _parse_resources(response["FolderMemberList"])
+        return _build_resources(response["FolderMemberList"])
 
-    def all_resources(self) -> dict[str, list]:
+    def tree(self) -> FolderNode:
         # initialize a dict with a parent id as key
-        all_resources: dict[str, Any] = {
-            "id": self.payload.folder_id,
-            "name": self.payload.name,
-            "subfolders": [],
-            "resources": self.resources()
-        }
+        parent_node = _node_builder(self)
 
         # call recursive
-        _recursive_folders(self, all_resources)
+        _build_nodes(self, parent_node)
 
-        return all_resources
+        return parent_node
 
     def _load_template(self):
         template = load_config("remote")
@@ -208,38 +204,29 @@ def load_child_template(parent: Folder, child_folder_name: str):
     return template
 
 
-def _parse_resources(resources_list: list[dict]):
-    # "id": "172af51b-19c6-4802-bc95-b845de7ebad0",
-    # "name": "Web Traffic Dataset",
-    # "type": "DATASET",
-    # "arn": "arn:aws:quicksight:us-east-1:679432970382:dataset/172af51b-19c6-4802-bc95-b845de7ebad0"
-
+def _build_resources(resources_list: list[dict]) -> list[AnalysisRef | DashboardRef | DatasetRef]:
+    ref_payloads = []
     for index, resource in enumerate(resources_list):
-        arn = resource["MemberArn"]
-        r_type = arn.split(":")[-1].split("/")[0].upper()
+        ref_payload = build_reference_payload(resource)
+        ref_payloads.append(ref_payload)
 
-        parsed_strct = {
-            "id": resource["MemberId"],
-            "arn": resource["MemberArn"],
-            "type": r_type,
-        }
-
-        resources_list[index] = parsed_strct
-
-    return resources_list
+    return ref_payloads
 
 
-def _recursive_folders(parent: Folder, all_resources: dict[str, Any]) -> None:
+def _node_builder(folder: Folder) -> FolderNode:
+    return FolderNode(
+        id=folder.payload.folder_id,
+        name=folder.payload.name,
+        subfolders=[],
+        resources=folder.resources()
+    )
+
+
+def _build_nodes(parent_folder: Folder, node: FolderNode) -> None:
     # check if the there are sub folder
-    for child in parent.subfolders():
-        child_all_resources = {
-            "id": child.payload.folder_id,
-            "name": child.payload.name,
-            "subfolders": [],
-            "resources": child.resources()
-        }
-
-        all_resources["subfolders"].append(child_all_resources)
+    for child_folder in parent_folder.subfolders():
+        child_node = _node_builder(folder=child_folder)
+        node.subfolders.append(child_node)
 
         # call it's self
-        _recursive_folders(child, child_all_resources)
+        _build_nodes(child_folder, child_node)
