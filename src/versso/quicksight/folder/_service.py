@@ -1,11 +1,9 @@
 from pathlib import Path
-from typing import Any
 
 from versso.quicksight.folder._factory import build_folder_payload, build_reference_payload
-from versso.quicksight.folder._payload import FolderPayload
+from versso.quicksight.folder._payload import FolderPayload, Resource, FolderNode
 from versso.quicksight.setup._context import Context
 from versso.util.helper import fetch
-from versso.quicksight.folder._resources import FolderNode, AnalysisRef, DatasetRef, DashboardRef
 
 
 class Folder:
@@ -86,7 +84,7 @@ class Folder:
 
         return subfolders
 
-    def resources(self) -> list[AnalysisRef | DashboardRef | DatasetRef]:
+    def resources(self) -> list[Resource]:
         kwargs = {
             "AwsAccountId": self.payload.aws_account_id,
             "FolderId": self.payload.folder_id
@@ -204,7 +202,7 @@ def load_child_template(parent: Folder, child_folder_name: str):
     return template
 
 
-def _build_resources(resources_list: list[dict]) -> list[AnalysisRef | DashboardRef | DatasetRef]:
+def _build_resources(resources_list: list[dict]) -> list[Resource]:
     ref_payloads = []
     for index, resource in enumerate(resources_list):
         ref_payload = build_reference_payload(resource)

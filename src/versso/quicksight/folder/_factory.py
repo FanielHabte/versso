@@ -1,5 +1,4 @@
-from versso.quicksight.folder._payload import FolderPayload as _FolderPayload
-from versso.quicksight.folder._resources import DatasetRef, DashboardRef, AnalysisRef
+from versso.quicksight.folder._payload import FolderPayload as _FolderPayload, Resource
 
 
 def build_folder_payload(aws_account_id: str, alias: str, folder_id: str) -> _FolderPayload:
@@ -20,34 +19,19 @@ def build_folder_payload(aws_account_id: str, alias: str, folder_id: str) -> _Fo
     )
 
 
-def build_reference_payload(resource: dict) -> DatasetRef | DashboardRef | AnalysisRef:
+def build_reference_payload(resource: dict) -> Resource:
     """
-    Builds resources reference payloads based on the type.
+    Builds Resource payload from QuickSight API response.
 
     :param resource:
     :return: AnalysisRef| DatasetRef | DashboardRef
-
-    :raises: RuntimeError
     """
 
     arn = resource["MemberArn"]
     r_type = arn.split(":")[-1].split("/")[0].upper()
 
-    if r_type == "DATASET":
-        return DatasetRef(
-            id=resource["MemberId"],
-            arn=resource["MemberArn"]
-        )
-    elif r_type == "DASHBOARD":
-        return DashboardRef(
-            id=resource["MemberId"],
-            arn=resource["MemberArn"]
-        )
-    elif r_type == "ANALYSIS":
-        return AnalysisRef(
-            id=resource["MemberId"],
-            arn=resource["MemberArn"]
-        )
-
-    raise RuntimeError(
-        f"Type {r_type} is not a valid type or not supported at this time. Here are the supported type [Dataset, Analysis, Dashboard]")
+    return Resource(
+        id=resource["MemberId"],
+        arn=resource["MemberArn"],
+        type=r_type
+    )
