@@ -1,9 +1,10 @@
-from versso.quicksight.dashboard._payload import DashboardPayload as _DashboardPayload
 from versso.quicksight.interfaces._i_service import Service
-from versso.quicksight.setup._context import Context as _Context
 from pathlib import Path as _Path
 from versso.util.helper import fetch as _fetch
 from time import sleep as _sleep
+
+from versso.quicksight.dashboard._payload import DashboardPayload as _DashboardPayload
+from versso.quicksight.setup._context import Context as _Context
 
 
 class Dashboard(Service):
@@ -162,7 +163,7 @@ class Dashboard(Service):
         build_response: dict = self.client.create_dashboard(**template_definition)
 
         template = _DashboardPayload(
-            dashboard_id=build_response["DashboardId"],
+            id=build_response["DashboardId"],
             aws_account_id=self.payload.aws_account_id,
             name=template_definition["Name"],
         )

@@ -2,19 +2,15 @@ __all__ = ["Builder"]
 
 from versso.quicksight.account._factory import build_client as _build_client
 
-from versso.quicksight.analysis._factory import build_analysis_payload as _build_analysis_payload
 from versso.quicksight.analysis._payload import AnalysisPayload as _AnalysisPayload
 from versso.quicksight.analysis._service import Analysis as _Analysis
 
-from versso.quicksight.dashboard._factory import build_dashboard_payload as _build_dashboard_payload
 from versso.quicksight.dashboard._payload import DashboardPayload as _DashboardPayload
 from versso.quicksight.dashboard._service import Dashboard as _Dashboard
 
-from versso.quicksight.setup._context import Context
-
 from versso.quicksight.folder._service import Folder as _Folder
 from versso.quicksight.folder._payload import FolderPayload as _FolderPayload
-from versso.quicksight.folder._factory import build_folder_payload as _build_folder_payload
+from versso.quicksight.setup._context import Context
 
 
 class Builder:
@@ -32,10 +28,10 @@ class Builder:
         """
         _prod_config: dict = self.context.analysis["prod"]
 
-        return _build_analysis_payload(
-            analysis_id=_prod_config["id"],
+        return _AnalysisPayload(
+            id=_prod_config["id"],
             aws_account_id=self.aws_account_id,
-            alias=_prod_config["alias"]
+            name=_prod_config["alias"]
         )
 
     def build_client(self):
@@ -61,10 +57,10 @@ class Builder:
         """
         _prod_config: dict = self.context.dashboard["prod"]
 
-        return _build_dashboard_payload(
-            dashboard_id=_prod_config["id"],
+        return _DashboardPayload(
+            id=_prod_config["id"],
             aws_account_id=self.aws_account_id,
-            alias=_prod_config["alias"]
+            name=_prod_config["alias"]
         )
 
     def build_prod_dashboard(self) -> _Dashboard:
@@ -98,9 +94,9 @@ class Builder:
     def build_project_folder_payload(self) -> _FolderPayload:
         project_config = self.context.folder["parent"]
 
-        return _build_folder_payload(
-            folder_id=project_config["id"],
-            alias=project_config["name"],
+        return _FolderPayload(
+            id=project_config["id"],
+            name=project_config["name"],
             aws_account_id=self.aws_account_id
         )
 
@@ -109,4 +105,19 @@ class Builder:
             payload=self.build_project_folder_payload(),
             client=self.build_client(),
             context=self.context
+        )
+
+    def build_my_dev_folder_payload(self) -> _FolderPayload:
+        user_name = self.context.user["name"]
+        return _FolderPayload(
+            id=f"{user_name}-dev-folder",
+            aws_account_id=self.aws_account_id,
+            name=f"{user_name}-dev-folder"
+        )
+
+    def build_my_dev_folder(self) -> _Folder:
+        return _Folder(
+            context=self.context,
+            client=self.build_client(),
+            payload=self.build_my_dev_folder_payload()
         )

@@ -1,11 +1,11 @@
 __all__ = ["Analysis"]
 
 from pathlib import Path as _Path
-from versso.quicksight.analysis._payload import AnalysisPayload as _AnalysisPayload
 from versso.quicksight.interfaces._i_service import Service
 from versso.util.helper import fetch as _fetch
 from time import sleep as _sleep
 from versso.quicksight.setup._context import Context as _Context
+from versso.quicksight.analysis._payload import AnalysisPayload as _AnalysisPayload
 
 
 class Analysis(Service):
@@ -24,7 +24,6 @@ class Analysis(Service):
         :param quicksight_client: An initialized boto3 QuickSight client.
         """
         super().__init__(payload=analysis_payload, context=context, client=quicksight_client)
-
 
     def create(self):
         pass
@@ -89,10 +88,15 @@ class Analysis(Service):
 
         :return: A new, updated Analysis object mimicking this instance's layout.
         """
-        template_analysis: _AnalysisPayload = self._create_template()
+        response = self._create_template()
+        template_payload = _AnalysisPayload(
+            id=response["AnalysisId"],
+            aws_account_id=self.payload.aws_account_id,
+            name=response["Name"],
+        )
 
         copy: "Analysis" = Analysis(
-            analysis_payload=template_analysis,
+            analysis_payload=template_payload,
             context=self.context,
             quicksight_client=self.client
         )
@@ -111,7 +115,7 @@ class Analysis(Service):
 
         return target
 
-    def _create_template(self) -> _AnalysisPayload:
+    def _create_template(self) -> dict:
         """
         Generates an initial analysis deployment shell derived from structural manifest details.
 
@@ -121,18 +125,10 @@ class Analysis(Service):
         template_definition: dict = _build_template_definition(
             project_name=self.context.project["name"],
             user_name=self.context.user["alias"],
-            team_name=self.context.team["name"]
+            analysis_name=self.payload.name
         )
 
-        build_response: dict = self.client.create_analysis(**template_definition)
-
-        template = _AnalysisPayload(
-            analysis_id=build_response["AnalysisId"],
-            aws_account_id=self.payload.aws_account_id,
-            name=template_definition["Name"],
-        )
-
-        return template
+        return self.client.create_analysis(**template_definition)
 
 
 def _get_path(file_name: str) -> _Path:
@@ -147,7 +143,7 @@ def _get_path(file_name: str) -> _Path:
     return file_path
 
 
-def _build_template_definition(project_name: str, user_name: str, team_name: str) -> dict:
+def _build_template_definition(project_name: str, user_name: str, analysis_name: str) -> dict:
     """
     Pulls base configurations and format names appropriately using standard deployment convention templates.
 
@@ -157,12 +153,11 @@ def _build_template_definition(project_name: str, user_name: str, team_name: str
 
     :param project_name: The explicit structural identification name for this codebase segment.
     :param user_name: The developer/runner alias.
-    :param team_name: The organizational corporate division grouping tag.
     :return: A dictionary configured with unique identifiers ready for deployment payload operations.
     """
     analyses_def = _fetch(_get_path("template_analyses"))
 
-    analyses_def["AnalysisId"] = f"{team_name}-{project_name}-{user_name}"
-    analyses_def["Name"] = f"{user_name}-{project_name}-analysis"
+    analyses_def["AnalysisId"] = f"{user_name}-{project_name}-analysis"
+    analyses_def["Name"] = f"{user_name}-{analysis_name}"
 
     return analyses_def
